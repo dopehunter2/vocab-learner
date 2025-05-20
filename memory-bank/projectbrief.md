@@ -10,7 +10,6 @@ Develop a mobile application for Android and iOS to help users learn English/Rus
     - The Google Gemini AI will provide:
         - Multiple translations.
         - Example sentences for the original word.
-        - Example sentences for specific translations.
     - Users can select desired translations to create new vocabulary items for SRS learning.
 - **Review Interface (`ReviewScreen`):** Interface for users to review due vocabulary items (word-translation pairs) and rate their recall (e.g., Again, Hard, Good, Easy) to update their FSRS state.
     - Text-to-Speech (TTS) pronunciation for words being reviewed.

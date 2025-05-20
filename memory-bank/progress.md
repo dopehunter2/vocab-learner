@@ -5,7 +5,7 @@
 - **AI Integration (`ai.ts`):** Gemini API lookup (`getWordInfo`, `getSpellingSuggestions`) provides translations, examples. Parser handles responses.
 - **Pronunciation Service (`pronunciationService.ts`):** `expo-speech` integration for TTS.
 - **Word Addition (`AddWordScreen.tsx`):**
-    - Dark theme applied. UI allows word input, displays AI results (translations as chips, general examples, examples for *selected* translations).
+    - Dark theme applied. UI allows word input, displays AI results (translations as chips, general examples).
     - TTS for original word implemented.
     - Users can select translations.
     - Save functionality saves each selected pair as an individual SRS item.

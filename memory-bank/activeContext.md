@@ -13,7 +13,6 @@
 - **AI Service (`ai.ts`) Updates:** Refined prompts and parsing for cleaner data.
 - **UI (`AddWordScreen.tsx`) Updates:**
     - Translations displayed as wrapped chips.
-    - Implemented display of examples specific to *selected* translations.
 - **UI Overhaul:** Implemented a stylish dark theme across `App.tsx`, `AddWordScreen.tsx`, `ReviewScreen.tsx`, and `AllWordsScreen.tsx`.
 - **Text-to-Speech (TTS) Integration (Phases 1 & 2 Complete):**
     - Installed `expo-speech`.

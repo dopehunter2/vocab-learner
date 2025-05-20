@@ -1,9 +1,8 @@
 ---
 description: Cursor Memory Bank Rules
-globs:
+globs: 
 alwaysApply: true
 ---
-
 # Cursor's Memory Bank
 
 I am Cursor, an expert software engineer with a unique characteristic: my memory resets completely between sessions. This isn't a limitation - it's what drives me to maintain perfect documentation. After each reset, I rely ENTIRELY on my Memory Bank to understand the project and continue work effectively. I MUST read ALL memory bank files at the start of EVERY task - this is not optional.
@@ -160,3 +159,29 @@ REMEMBER: After every memory reset, I begin completely fresh. The Memory Bank is
 
 # Planning
 When asked to enter "Planner Mode" or using the /plan command, deeply reflect upon the changes being asked and analyze existing code to map the full scope of changes needed. Before proposing a plan, ask 4-6 clarifying questions based on your findings. Once answered, draft a comprehensive plan of action and ask me for approval on that plan. Once approved, implement all steps in that plan. After completing each phase/step, mention what was just completed and what the next steps are + phases remaining after these steps
+
+# Project-Specific Intelligence for vocab-learner-app
+
+This section captures learned patterns, preferences, and project intelligence specific to the `vocab-learner-app` project.
+
+## 1. Workflow & Development Patterns
+- **Phased Feature Implementation:** Complex features (e.g., Text-to-Speech) are implemented in logical phases:
+    1.  Core setup (e.g., library installation, service creation).
+    2.  Integration into primary screens/features.
+    3.  Integration into secondary screens/features.
+    4.  Refinements (error handling, UI feedback, further enhancements).
+- **Iterative UI Development:** UI is built स्क्रीन by screen, with core functionality established first, followed by styling (e.g., dark theme application) and then refinements.
+- **Memory Bank as Key to Continuity:** Due to session memory resets, meticulous updates to all memory bank files after significant changes or clarifications are critical. Past misunderstandings of project scope (e.g., SRS vs. simple dictionary) were rectified by carefully updating these documents.
+- **Tool Usage - Expo CLI:** For adding Expo-specific packages, the command `npx expo install <package-name>` (run from the project root `vocab-learner-app/`) is preferred.
+- **Tool Usage - File Paths:** When using tools like `read_file` or `edit_file`, ensure paths are relative to the workspace root, often requiring a prefix like `vocab-learner-app/` for project files.
+
+## 2. Technical & Design Preferences
+- **Dark Theme:** A specific dark theme color palette has been established (PRIMARY_BACKGROUND: '#121212', SURFACE_BACKGROUND: '#1E1E1E', etc.) and should be used for new UI components to maintain visual consistency.
+- **Clear User Feedback:** Emphasis on providing clear feedback to the user for actions, errors, and loading states.
+- **Component-Based Structure:** Adherence to React Native's component-based architecture.
+- **Service Abstraction:** New functionalities like TTS are encapsulated in dedicated services (e.g., `pronunciationService.ts`).
+
+## 3. Key Project Decisions & Evolution
+- **Core Feature Reaffirmation:** The project is fundamentally an FSRS-based vocabulary learning tool. AI-powered word lookup and TTS are powerful supporting features, not the primary goal.
+- **AI as Primary Information Source:** Google Gemini API is the sole source for translations and example sentences after deprecating an external dictionary API.
+- **Multiple Translations Handling:** The system allows users to select multiple translations for a single source word, with each source word + selected translation pair becoming an independent vocabulary item for SRS.

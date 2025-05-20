@@ -9,7 +9,7 @@ Individuals actively learning English or Russian vocabulary who want an efficien
 ## 3. Core Functionality: SRS Learning Cycle + AI Word Addition
 - **Adding Words:**
     - User inputs a word via `AddWordScreen`.
-    - App queries Google Gemini API (`ai.ts`) for translations and examples.
+    - App queries Google Gemini AI (`ai.ts`) for translations and examples.
     - User can listen to the pronunciation of the looked-up word.
     - User selects desired translation(s).
     - Each selected word-translation pair is saved to the database (`expo-sqlite`) with initial FSRS state (`srs.ts`).
