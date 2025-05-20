@@ -40,3 +40,4 @@
 ## 4. Known Issues / Areas for Improvement
 - **Limited Extensive Testing:** The full SRS cycle with all new features needs more comprehensive testing.
 - **TTS Refinements:** Phase 3 (error handling, UI feedback) is pending.
+- **Version Tagging:** The current stable build (as of YYYY-MM-DD HH:MM, corresponding to recent commits) has been locally tagged in Git for potential rollback.

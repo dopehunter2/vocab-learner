@@ -27,4 +27,7 @@
 - Distribution outside official app stores (Expo EAS Build preferred).
 - Secure handling of Gemini API key - **Currently hardcoded in `src/config/apiKeys.ts` for personal use.**
 
+## 5. Version Control Practices
+- **Local Tagging:** Stable points in development are marked with local Git tags (e.g., `stable-YYYYMMDD-HHMMSS`) in both the main project and the `vocab-learner-app` submodule. These tags can be used for rollbacks if necessary. Pushing tags to a remote repository is contingent on a remote being configured for the respective repositories.
+
 *(External dictionary API integration, including `dictionaryService.ts`, has been removed from the project due to service unreliability. The project now relies solely on Gemini for lookups.)*
