@@ -19,30 +19,25 @@
     - Dark theme applied. Displays all items, delete functionality, and FSRS study progress (status text and percentage).
 - **Navigation (`App.tsx`):** Tab navigation connects screens, dark theme applied.
 - **Build Process:** Successful Android `.apk` builds using EAS.
+- **Notification System:** A local notification system (`expo-notifications`) is in place. It requests permissions and schedules a single notification for the next due card, which is recalculated after every user action.
+- **Database Migration System:** A version-aware migration engine is implemented in `database.ts`. This ensures user data is preserved safely across future app updates.
 
 ## 2. What's Left to Build / Refine
 - **End-to-End SRS Testing (High Priority):** Thoroughly test the complete add-review cycle.
-- **TTS Feature Refinements (Phase 3):**
-    - Implement error handling for TTS (e.g., language not supported, speech engine errors) in `pronunciationService.ts` and calling components.
-    - Provide UI feedback while speech is initializing or playing (e.g., icon change, subtle loading indicator) on `AddWordScreen` and `ReviewScreen`.
-    - Consider adding TTS pronunciation to `AllWordsScreen.tsx` for each listed word.
-- **`ReviewScreen` - Example Display:** Evaluate if current AI example button is sufficient or if examples saved with the item should be more directly accessible.
-- **Database Robustness:** Review and test database functions for edge cases and performance.
 - **Error Handling:** General improvement for AI calls, database ops, and TTS, with clear user feedback.
 - **UI/UX Polish:** Minor consistency and aesthetic improvements.
-- **Future Feature - Notifications:**
-    - Implement local notifications using `expo-notifications` to remind users when reviews are due.
-    - The logic will schedule a single notification for the next upcoming due card and will be recalculated after each review session.
-- **Future Feature - App Update Strategy:**
-    - Develop a database migration system to handle changes to the SQLite schema between app versions.
-    - This will involve versioning the database (`PRAGMA user_version`) and creating migration scripts to prevent data loss during updates.
+- **Test Notifications with Development Build:** The notification system cannot be fully tested in Expo Go. The next step is to create a development build to verify notification functionality.
+- **TTS Feature Refinements (Phase 3):**
+    - Implement error handling for TTS.
+    - Provide UI feedback during speech.
+    - Add TTS to `AllWordsScreen`.
+- **UI/UX Polish:** General improvements.
 
 ## 3. Current Status
-- **Goal Reaffirmed:** Project is an FSRS vocabulary learning tool with AI and TTS support.
-- **Core Components Stabilized:** Key screens are functional, and major bugs related to API connectivity and state management have been resolved.
-- **Next Step:** Build a new version for end-to-end testing and then focus on TTS refinements and general polish.
+- **Feature Complete (Core):** The application now has a complete set of core features: SRS logic, AI word lookup, TTS, notifications, and a robust data migration system.
+- **Next Step:** Create a development build to test notifications, then conduct full end-to-end testing of all features.
 
 ## 4. Known Issues / Areas for Improvement
+- **Expo Go Limitations:** Notifications cannot be tested in the standard Expo Go client and require a development build.
 - **TTS Refinements:** Phase 3 (error handling, UI feedback) is pending.
-- **Version Tagging:** The current stable build (as of YYYY-MM-DD HH:MM, corresponding to recent commits) has been locally tagged in Git for potential rollback.
-- **Comprehensive Testing Needed:** Now that major bugs are fixed, the full add-review-reschedule SRS cycle needs to be thoroughly tested.
+- **Comprehensive Testing Needed:** The full SRS cycle and new features need thorough testing.

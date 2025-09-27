@@ -12,4 +12,8 @@
 - **Language**: TypeScript.
 - **Icons**: **`@expo/vector-icons`** (Installed and used).
 - **Word Lookup & Information Source**: **Google Gemini API (via `ai.ts`)** is the primary source for identifying language, providing multiple translations, and example sentences. The specific model in use is `gemini-2.0-flash`.
-- **Text-to-Speech (TTS)**: **`
+- **Text-to-Speech (TTS)**: **`expo-speech` (via `src/services/pronunciationService.ts`)** for audio pronunciation.
+- **Notifications**: **`expo-notifications`** for scheduling local study reminders.
+- **Unique IDs**: `expo-crypto` for UUID generation (used for `VocabularyItem` IDs).
+
+## 3. Development Setup

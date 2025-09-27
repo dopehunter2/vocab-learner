@@ -22,10 +22,13 @@
     - Added pronunciation for the displayed word on `ReviewScreen.tsx`.
 - **Resolved Gemini API Errors:** Fixed persistent `404` errors by identifying the correct, non-standard model name (`gemini-2.0-flash`) from Google Cloud Console logs.
 - **Resolved State Management Bug:** Corrected the logic for adding/updating words so that the UI now updates instantly without needing an app restart. The `AddWordScreen` now correctly uses the Zustand store's actions.
+- **Implemented Notification System:** Added `expo-notifications` to schedule reminders for the next due card. Logic is integrated into the Zustand store to reschedule after any data changes.
+- **Implemented Database Migrations:** Created a version-aware migration engine in `database.ts` to ensure user data is preserved safely across future app updates.
+- **Permanently Fixed UI Rendering Bug:** Resolved a recurring crash in `ReviewScreen` by refactoring the text rendering logic to prevent invalid component nesting.
 - **Successful APK builds** for testing on Android.
 
 ## 3. Next Steps (Realigned with SRS Goal & TTS Integration)
-- **Build and Test Stable Version:** Now that the major API and state management bugs are resolved, the next step is to create a new, stable `.apk` build for thorough end-to-end testing.
+- **Create Development Build:** The immediate next step is to create a development build of the app. This is required to test the newly implemented notification functionality, which is not supported by the standard Expo Go client.
 - **TTS Feature Refinements (Phase 3):**
     - Implement error handling for TTS (e.g., language not supported, speech engine errors).
     - Provide UI feedback while speech is initializing or playing (e.g., icon change, subtle loading indicator).
@@ -35,12 +38,8 @@
 - **UI Polish & UX Enhancements:** Continue minor adjustments for clarity and ease of use across all screens.
 - **Error Handling:** Improve robustness of error handling for AI calls, database operations, and TTS, providing clear user feedback.
 
-## 4. Future Feature Planning
-- **Notifications:** Plan to implement a notification system using `expo-notifications`. The core logic will be to schedule a single notification for the next due card, recalculating and rescheduling after each review session to ensure accuracy and avoid spam.
-- **Database Migrations:** A strategy for handling app updates will be implemented. This involves versioning the local SQLite database and creating migration scripts to safely update the database schema between app versions, preserving user data.
-
 ## 4. Known Issues
-*(No critical bugs are currently known. The focus is now on testing and refinement.)*
+*(No critical code bugs are currently known. The main blocker is the inability to test notifications in Expo Go.)*
 
 ## 5. Active Decisions / Considerations
 - **Core Functionality IS FSRS-based vocabulary learning.** AI lookup and TTS are supporting features.
