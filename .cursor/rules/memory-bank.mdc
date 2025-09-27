@@ -185,3 +185,6 @@ This section captures learned patterns, preferences, and project intelligence sp
 - **Core Feature Reaffirmation:** The project is fundamentally an FSRS-based vocabulary learning tool. AI-powered word lookup and TTS are powerful supporting features, not the primary goal.
 - **AI as Primary Information Source:** Google Gemini API is the sole source for translations and example sentences after deprecating an external dictionary API.
 - **Multiple Translations Handling:** The system allows users to select multiple translations for a single source word, with each source word + selected translation pair becoming an independent vocabulary item for SRS.
+
+## 4. External Services & APIs
+- **Gemini API Model Name:** The API is sensitive to the exact model name. If `404 Not Found` errors occur, do not guess the model name. The correct procedure is to check the Google Cloud Console API Metrics for a recent successful request (e.g., from a working mobile build) to identify the exact model identifier. The currently confirmed and working model is `gemini-2.0-flash`.

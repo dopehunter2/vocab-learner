@@ -2,7 +2,7 @@
 
 ## 1. What Works
 - **Core Setup:** React Native with Expo, TypeScript, Dark Theme applied globally.
-- **AI Integration (`ai.ts`):** Gemini API lookup (`getWordInfo`, `getSpellingSuggestions`) provides translations, examples. Parser handles responses.
+- **AI Integration (`ai.ts`):** Gemini API lookup (`getWordInfo`, `getSpellingSuggestions`) provides translations and examples. The service is now stable using the `gemini-2.0-flash` model. Parser handles responses.
 - **Pronunciation Service (`pronunciationService.ts`):** `expo-speech` integration for TTS.
 - **Word Addition (`AddWordScreen.tsx`):**
     - Dark theme applied. UI allows word input, displays AI results (translations as chips, general examples).
@@ -30,14 +30,13 @@
 - **Database Robustness:** Review and test database functions for edge cases and performance.
 - **Error Handling:** General improvement for AI calls, database ops, and TTS, with clear user feedback.
 - **UI/UX Polish:** Minor consistency and aesthetic improvements.
-- **Zustand Store (`useVocabularyStore.ts`):** Review for efficiency in fetching due cards and state updates.
 
 ## 3. Current Status
 - **Goal Reaffirmed:** Project is an FSRS vocabulary learning tool with AI and TTS support.
-- **Core Components Enhanced:** Key screens have a dark theme, improved functionality (typed answers, random direction, progress display), and initial TTS integration.
-- **Next Step:** Focus on rigorous testing of the core SRS learning loop, TTS refinements, and overall polish.
+- **Core Components Stabilized:** Key screens are functional, and major bugs related to API connectivity and state management have been resolved.
+- **Next Step:** Build a new version for end-to-end testing and then focus on TTS refinements and general polish.
 
 ## 4. Known Issues / Areas for Improvement
-- **Limited Extensive Testing:** The full SRS cycle with all new features needs more comprehensive testing.
 - **TTS Refinements:** Phase 3 (error handling, UI feedback) is pending.
 - **Version Tagging:** The current stable build (as of YYYY-MM-DD HH:MM, corresponding to recent commits) has been locally tagged in Git for potential rollback.
+- **Comprehensive Testing Needed:** Now that major bugs are fixed, the full add-review-reschedule SRS cycle needs to be thoroughly tested.

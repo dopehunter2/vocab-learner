@@ -15,4 +15,5 @@
 - **Text-to-Speech (TTS) Service**: Utilizing **`expo-speech` via `src/services/pronunciationService.ts`** to provide audio pronunciation for words.
 - **Cross-Platform Development**: Using React Native with Expo.
 - **Database Abstraction**: Using utility functions (`src/database/database.ts`) to interact with SQLite.
+- **Centralized State Management**: The application's state, particularly the lists of vocabulary cards (`allCards`, `dueCards`), is managed centrally by **Zustand via `src/store/useVocabularyStore.ts`**. Components should interact with this store to get data and to trigger actions (like adding, deleting, or reviewing a card). Direct database calls from UI components that modify data are an anti-pattern in this architecture, as they bypass the state store and lead to UI inconsistencies.
 - **(Removed) External Dictionary API Integration**: The pattern for using an external dictionary API (and the `dictionaryService.ts` file) has been removed from the project due to service unreliability. 
