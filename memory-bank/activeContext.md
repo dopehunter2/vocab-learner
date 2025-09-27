@@ -35,6 +35,10 @@
 - **UI Polish & UX Enhancements:** Continue minor adjustments for clarity and ease of use across all screens.
 - **Error Handling:** Improve robustness of error handling for AI calls, database operations, and TTS, providing clear user feedback.
 
+## 4. Future Feature Planning
+- **Notifications:** Plan to implement a notification system using `expo-notifications`. The core logic will be to schedule a single notification for the next due card, recalculating and rescheduling after each review session to ensure accuracy and avoid spam.
+- **Database Migrations:** A strategy for handling app updates will be implemented. This involves versioning the local SQLite database and creating migration scripts to safely update the database schema between app versions, preserving user data.
+
 ## 4. Known Issues
 *(No critical bugs are currently known. The focus is now on testing and refinement.)*
 

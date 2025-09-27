@@ -30,6 +30,12 @@
 - **Database Robustness:** Review and test database functions for edge cases and performance.
 - **Error Handling:** General improvement for AI calls, database ops, and TTS, with clear user feedback.
 - **UI/UX Polish:** Minor consistency and aesthetic improvements.
+- **Future Feature - Notifications:**
+    - Implement local notifications using `expo-notifications` to remind users when reviews are due.
+    - The logic will schedule a single notification for the next upcoming due card and will be recalculated after each review session.
+- **Future Feature - App Update Strategy:**
+    - Develop a database migration system to handle changes to the SQLite schema between app versions.
+    - This will involve versioning the database (`PRAGMA user_version`) and creating migration scripts to prevent data loss during updates.
 
 ## 3. Current Status
 - **Goal Reaffirmed:** Project is an FSRS vocabulary learning tool with AI and TTS support.

@@ -16,4 +16,8 @@
 - **Cross-Platform Development**: Using React Native with Expo.
 - **Database Abstraction**: Using utility functions (`src/database/database.ts`) to interact with SQLite.
 - **Centralized State Management**: The application's state, particularly the lists of vocabulary cards (`allCards`, `dueCards`), is managed centrally by **Zustand via `src/store/useVocabularyStore.ts`**. Components should interact with this store to get data and to trigger actions (like adding, deleting, or reviewing a card). Direct database calls from UI components that modify data are an anti-pattern in this architecture, as they bypass the state store and lead to UI inconsistencies.
-- **(Removed) External Dictionary API Integration**: The pattern for using an external dictionary API (and the `dictionaryService.ts` file) has been removed from the project due to service unreliability. 
+- **(Removed) External Dictionary API Integration**: The pattern for using an external dictionary API (and the `dictionaryService.ts` file) has been removed from the project due to service unreliability.
+
+## 4. Planned System Patterns (Future Implementation)
+- **Notification Scheduling**: For study reminders, the planned pattern is to use `expo-notifications`. The system will schedule only one notification at a time, corresponding to the next closest due card. This notification will be cancelled and recalculated after every review session to ensure the reminder is always accurate based on the latest FSRS data.
+- **Database Migration**: To handle app updates safely, a database migration pattern will be used. This involves assigning a version number to the database schema (`PRAGMA user_version`). When an app update requires a schema change, a corresponding migration script will be created to alter the existing database structure without data loss. An engine in `database.ts` will check the version on startup and apply any necessary migrations sequentially. 
