@@ -1,50 +1,41 @@
 # Active Context: FSRS Vocabulary Learning App
 
 ## 1. Current Focus
-- **Fixing State Management Bug:** The highest priority is to resolve the bug where newly added words are saved to the database but do not appear in the UI. This involves refactoring the word addition logic to correctly update the Zustand store.
-- **Reaffirming Core Goal:** Ensuring the application functions as an FSRS-based vocabulary learning tool, with AI assistance for adding new words and TTS pronunciation.
-- **Refining the Word Addition Flow (`AddWordScreen.tsx`):** Includes AI lookup, translation selection, example display (general and for selected translations), and TTS for the original word.
-- **Ensuring Review Cycle Integrity (`ReviewScreen.tsx`):** Includes review of due items, user rating, FSRS state updates, and TTS for the displayed word.
-- **Testing and Refining TTS Feature:** Ensuring pronunciation works correctly across screens and considering further enhancements.
-- **Overall UI/UX Polish and Robustness:** Improving the look, feel, and error handling of the application.
+- **Completing Core Features:** With the native build now stable, the primary focus is to complete the final user-facing features.
+    - **Implement Data Import:** The export functionality is complete. The next step is to build the import logic, which includes parsing the file, handling potential duplicates, and safely updating the database.
+    - **Re-enable Notifications:** The notification service was disabled during previous debugging. Now that the app is stable, this service needs to be re-enabled and tested.
 
-## 2. Recent Changes (Corrective Actions & Recent Progress)
-- **Corrected Misinterpretation:** Realigned project focus back to FSRS learning.
-- **Memory Bank Update:** Updated memory bank files to reflect SRS learning goal and recent feature additions.
-- **AI Service (`ai.ts`) Updates:** Refined prompts and parsing for cleaner data.
-- **UI (`AddWordScreen.tsx`) Updates:**
-    - Translations displayed as wrapped chips.
-- **UI Overhaul:** Implemented a stylish dark theme across `App.tsx`, `AddWordScreen.tsx`, `ReviewScreen.tsx`, and `AllWordsScreen.tsx`.
-- **Text-to-Speech (TTS) Integration (Phases 1 & 2 Complete):**
-    - Installed `expo-speech`.
-    - Created `src/services/pronunciationService.ts`.
-    - Added pronunciation for the original word on `AddWordScreen.tsx`.
-    - Added pronunciation for the displayed word on `ReviewScreen.tsx`.
-- **Resolved Gemini API Errors:** Fixed persistent `404` errors by identifying the correct, non-standard model name (`gemini-2.0-flash`) from Google Cloud Console logs.
-- **Resolved State Management Bug:** Corrected the logic for adding/updating words so that the UI now updates instantly without needing an app restart. The `AddWordScreen` now correctly uses the Zustand store's actions.
-- **Implemented Notification System:** Added `expo-notifications` to schedule reminders for the next due card. Logic is integrated into the Zustand store to reschedule after any data changes.
-- **Implemented Database Migrations:** Created a version-aware migration engine in `database.ts` to ensure user data is preserved safely across future app updates.
-- **Permanently Fixed UI Rendering Bug:** Resolved a recurring crash in `ReviewScreen` by refactoring the text rendering logic to prevent invalid component nesting.
-- **Successful APK builds** for testing on Android.
+## 2. Recent Changes (Build Success & Feature Completion)
+- **[CRITICAL] Native Build Stabilized (Oct 5, 2025):** After extensive debugging, we have successfully produced a stable Android `.apk` using React Native's New Architecture.
+    - The final solution involved upgrading `react-native-reanimated` to a version compatible with the New Architecture, which also resolved the original JavaScript runtime crash.
+    - Key blockers overcome: Gradle Metaspace errors, a corrupted Android SDK `package.xml` file, and multiple dependency conflicts.
+- **[COMPLETE] EPIC 1 (Bilingual Context):** The `WordDetailModal` and long-press examples on `AddWordScreen` are fully implemented and working.
+- **[COMPLETE] EPIC 2 (Control & Portability - Partial):**
+    - Advanced sorting is implemented on `AllWordsScreen`.
+    - Data export is fully functional via the Settings screen.
+- **[COMPLETE] EPIC 3 (Dynamic Learning):**
+    - Review direction is randomized.
+    - Immediate answer feedback is implemented on `ReviewScreen`.
+- **Data Loss and Recovery:** The project was successfully restored from a backup after an accidental deletion. All features have now been re-implemented.
 
-## 3. Next Steps (Realigned with SRS Goal & TTS Integration)
-- **Create Development Build:** The immediate next step is to create a development build of the app. This is required to test the newly implemented notification functionality, which is not supported by the standard Expo Go client.
-- **TTS Feature Refinements (Phase 3):**
-    - Implement error handling for TTS (e.g., language not supported, speech engine errors).
-    - Provide UI feedback while speech is initializing or playing (e.g., icon change, subtle loading indicator).
-    - Consider adding TTS pronunciation to `AllWordsScreen.tsx` for each listed word.
-- **Refine Example Display on `ReviewScreen`:** (Still relevant)
-    - When a card is due on `ReviewScreen`, consider if/how to display example sentences. (AI example button already exists, this might refer to examples saved with the item).
-- **UI Polish & UX Enhancements:** Continue minor adjustments for clarity and ease of use across all screens.
-- **Error Handling:** Improve robustness of error handling for AI calls, database operations, and TTS, providing clear user feedback.
+## 3. Next Steps
+1.  **Implement Import Logic:**
+    - Read the selected JSON file using `fileService`.
+    - Create a validation function to check the file's structure.
+    - Implement the logic in `useVocabularyStore` to iterate through imported items.
+    - For each item, check for duplicates in the local database.
+    - If no duplicate, insert the new item.
+    - If a duplicate exists, prompt the user to skip or overwrite.
+    - Update the database and refresh the app state.
+2.  **Re-enable and Test Notifications:**
+    - Uncomment the notification-related code in `useVocabularyStore.ts` and `App.tsx`.
+    - Thoroughly test the notification scheduling.
 
 ## 4. Known Issues
-*(No critical code bugs are currently known. The main blocker is the inability to test notifications in Expo Go.)*
+- Data import is not yet functional.
+- The notification service is currently disabled in the code.
 
 ## 5. Active Decisions / Considerations
-- **Core Functionality IS FSRS-based vocabulary learning.** AI lookup and TTS are supporting features.
-- **Data Model:** Each word-translation pair is an independent `VocabularyItem` in the database, each with its own FSRS state.
-- **Key Technologies:** React Native, Expo, TypeScript, `expo-sqlite`, `ts-fsrs`, `Zustand`, Google Gemini API, `expo-speech`.
-- **Current UI State:** Dark theme applied. Core screens (`AddWordScreen`, `ReviewScreen`, `AllWordsScreen`) are functional with SRS and initial TTS integration.
-
-*(Sections related to a dictionary-only pivot have been removed or corrected.)* 
+- **Core Functionality IS FSRS-based vocabulary learning.**
+- **Build Target:** The app now successfully builds with the **New Architecture enabled**. This is a key technical decision going forward.
+- **Key Technologies:** React Native, Expo, TypeScript, `expo-sqlite`, `ts-fsrs`, `Zustand`, Google Gemini API, `expo-speech`, `expo-file-system`, `expo-document-picker`, `expo-sharing`. 

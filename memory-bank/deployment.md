@@ -1,70 +1,73 @@
-# Deployment and Installation Guide
+# Deployment and Build Guide
 
-This document provides a step-by-step guide for building a standalone `.apk` file for Android and installing it on a physical device for testing.
+This document provides a step-by-step guide for building a standalone `.apk` file for Android.
 
-## Building the APK using Android Studio
+## 1. Build Environment Requirements
+- **Node.js:** Use a stable LTS version (Node 18 or 20 are confirmed to work).
+- **Android Studio:** Required for the Android SDK, command-line tools, and emulator.
+- **`local.properties`:** Ensure you have an `android/local.properties` file with the correct `sdk.dir` path pointing to your Android SDK installation.
+    - *Example:* `sdk.dir=/Users/mac/Library/Android/sdk`
 
-This is the recommended method for creating builds as it provides the most control and detailed error logging.
+## 2. Key Build Configuration
+The project is now configured to build using **React Native's New Architecture (Fabric)**. This is a critical requirement for our current dependencies.
 
-### Step 1: Pre-Build Configuration (One-Time Setup)
+- **`android/gradle.properties`**:
+    - `newArchEnabled` **must be set to `true`**.
+    - `org.gradle.jvmargs` has been increased to `-Xmx4g -XX:MaxMetaspaceSize=1g` to prevent memory-related build failures.
 
-This step is crucial to resolve environment issues between Android Studio and a macOS development setup (especially when using tools like Homebrew).
+- **`package.json`**:
+    - `react-native-reanimated` must be a version that supports the New Architecture (e.g., `^4.x.x`). Downgrading this package will cause the build to fail.
 
-1.  **Find your Node.js Path:**
-    Open a standard terminal and run the command `which node`. This will output the path to your Node.js executable. Copy this path.
-    *(Example: `/opt/homebrew/bin/node`)*
+## 3. Building the Release APK
 
-2.  **Configure Android Studio:**
-    -   Open the native Android project in Android Studio. The correct folder to open is `vocab-learner-app/android`.
-    -   In the Android Studio project explorer, find and open the file named `local.properties`.
-    -   Add the following line to the end of this file, replacing the example path with the actual path you copied in the previous step:
-        ```
-        node.js.executable=/opt/homebrew/bin/node
-        ```
+1.  **Navigate to the `android` directory:**
+    ```bash
+    cd vocab-learner-restored/android
+    ```
 
-3.  **Launch Android Studio from the Terminal:**
-    To ensure Android Studio inherits your shell's full environment `PATH`, it is best to launch it directly from your terminal.
-    -   First, completely quit Android Studio.
-    -   Then, run the following command in your terminal:
-        ```bash
-        open -a "Android Studio" "/path/to/your/project/vocab-learner-app/android"
-        ```
+2.  **(Optional) Clean the project:**
+    If you encounter strange issues, run this command to clear previous build artifacts.
+    ```bash
+    ./gradlew clean
+    ```
 
-### Step 2: Running the Build
+3.  **Run the release build command:**
+    This process will bundle the JavaScript code and compile the native Android app. It can take several minutes.
+    ```bash
+    ./gradlew assembleRelease
+    ```
 
-Once the project is open and the initial Gradle Sync has completed successfully, you can build the release `.apk`.
+4.  **Locate the APK:**
+    Upon successful completion, the installable APK file will be located at:
+    `vocab-learner-restored/android/app/build/outputs/apk/release/app-release.apk`
 
-1.  **Clean the Project:**
-    -   In the Android Studio menu bar, go to `Build > Clean Project`. This removes any old build artifacts.
+## 4. Installation
+You can install the generated APK on an Android emulator or a physical device using the Android Debug Bridge (`adb`).
 
-2.  **Build the Release APK:**
-    -   There are two ways to generate a release build that can be installed on a device:
-        -   **Method A (Recommended - Standalone App):** Go to `Build > Build Bundle(s) / APK(s) > Build APK(s)`. This creates a debuggable APK. For a release build, it's better to use the command line.
-        -   **Method B (Command Line Release):** Open a terminal, navigate to the `android` directory (`cd vocab-learner-app/android`), and run the command:
-            ```bash
-            ./gradlew assembleRelease
-            ```
+1.  **Uninstall any old versions:**
+    ```bash
+    adb uninstall com.dieselboy85.vocablearnerapp
+    ```
 
-### Step 3: Locating and Installing the APK
+2.  **Install the new APK:**
+    ```bash
+    adb install path/to/app-release.apk
+    ```
+    *(Replace `path/to/` with the actual path from the previous step)*
 
-1.  **Find the File:**
-    -   For a debug build from Android Studio, click the "locate" link in the build success notification. The file will be at `.../app/build/outputs/apk/debug/app-debug.apk`.
-    -   For a release build from the command line, the file will be at `.../app/build/outputs/apk/release/app-release.apk`.
+## 5. Troubleshooting Common Build Failures
 
-2.  **Transfer to Your Device:**
-    -   The easiest method is to upload the `.apk` file to a cloud service like Google Drive.
-    -   Alternatively, connect your Android phone to your Mac via a USB cable and transfer the file.
+-   **Error: `Metaspace`**
+    -   **Cause:** The Gradle build process ran out of memory.
+    -   **Solution:** Ensure `org.gradle.jvmargs` in `android/gradle.properties` is set to a higher value, like `-Xmx4g -XX:MaxMetaspaceSize=1g`.
 
-3.  **Install:**
-    -   On your phone, open a file manager app and navigate to where you saved the `.apk`.
-    -   Tap the file to install it. You may need to grant your file manager permission to "install from unknown sources."
+-   **Error: `javax.xml.bind.UnmarshalException ... Premature end of file.`**
+    -   **Cause:** A `package.xml` file within your Android SDK is corrupted (e.g., it is a 0-byte empty file). This is a critical failure.
+    -   **Solution:**
+        1.  Identify the corrupted SDK platform folder (e.g., `/Users/mac/Library/Android/sdk/platforms/android-36`).
+        2.  Delete that entire folder (`rm -rf ...`).
+        3.  Re-run the Gradle build. Gradle will automatically detect the missing platform and re-download a fresh, uncorrupted version.
 
----
-
-## Troubleshooting
-
--   **Error: `Cause: error=2, No such file or directory` during Gradle Sync:**
-    This means Android Studio cannot find your `node` executable. Ensure you have completed **Step 1: Pre-Build Configuration** correctly. Launching from the terminal is the most reliable fix.
-
--   **App Crashes on Launch with "Unable to load script":**
-    This occurs if you install a **debug** build (`app-debug.apk`) but do not have the Metro development server running. To fix this, run `npx expo start` in your project's root directory (`vocab-learner-app`) on your computer while your phone is on the same Wi-Fi network. For standalone testing, always build and install a **release** build.
+-   **Error: `[Reanimated] Reanimated requires new architecture to be enabled.` OR `[Worklets] Worklets require new architecture...`**
+    -   **Cause:** You are trying to build with `newArchEnabled=false`, but your version of `react-native-reanimated` (or one of its dependencies) requires it.
+    -   **Solution:** You **must** enable the New Architecture. Set `newArchEnabled=true` in `android/gradle.properties` and ensure your `react-native-reanimated` version is up-to-date. Downgrading is no longer a viable option for this project.

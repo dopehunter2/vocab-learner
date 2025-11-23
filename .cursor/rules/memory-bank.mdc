@@ -165,26 +165,33 @@ When asked to enter "Planner Mode" or using the /plan command, deeply reflect up
 This section captures learned patterns, preferences, and project intelligence specific to the `vocab-learner-app` project.
 
 ## 1. Workflow & Development Patterns
-- **Phased Feature Implementation:** Complex features (e.g., Text-to-Speech) are implemented in logical phases:
-    1.  Core setup (e.g., library installation, service creation).
-    2.  Integration into primary screens/features.
-    3.  Integration into secondary screens/features.
-    4.  Refinements (error handling, UI feedback, further enhancements).
-- **Iterative UI Development:** UI is built स्क्रीन by screen, with core functionality established first, followed by styling (e.g., dark theme application) and then refinements.
-- **Memory Bank as Key to Continuity:** Due to session memory resets, meticulous updates to all memory bank files after significant changes or clarifications are critical. Past misunderstandings of project scope (e.g., SRS vs. simple dictionary) were rectified by carefully updating these documents.
-- **Tool Usage - Expo CLI:** For adding Expo-specific packages, the command `npx expo install <package-name>` (run from the project root `vocab-learner-app/`) is preferred.
-- **Tool Usage - File Paths:** When using tools like `read_file` or `edit_file`, ensure paths are relative to the workspace root, often requiring a prefix like `vocab-learner-app/` for project files.
+- **Phased Feature Implementation:** Complex features are implemented in logical phases: Core setup, primary screen integration, secondary screen integration, and refinements.
+- **Iterative UI Development:** UI is built screen by screen, with functionality first, followed by styling and refinements.
+- **Memory Bank as Key to Continuity:** Meticulous updates to all memory bank files after significant changes are critical for project continuity.
+- **Tool Usage - Expo CLI:** Use `npx expo install <package-name>` for adding Expo-specific packages.
+- **Tool Usage - Git Workflow:** All `git` commands must be executed from within the `vocab-learner-restored/` subdirectory.
 
 ## 2. Technical & Design Preferences
-- **Dark Theme:** A specific dark theme color palette has been established (PRIMARY_BACKGROUND: '#121212', SURFACE_BACKGROUND: '#1E1E1E', etc.) and should be used for new UI components to maintain visual consistency.
-- **Clear User Feedback:** Emphasis on providing clear feedback to the user for actions, errors, and loading states.
-- **Component-Based Structure:** Adherence to React Native's component-based architecture.
-- **Service Abstraction:** New functionalities like TTS are encapsulated in dedicated services (e.g., `pronunciationService.ts`).
+- **Dark Theme:** A specific dark theme color palette has been established and should be used for all new UI components to maintain visual consistency.
+- **Clear User Feedback:** Emphasis on providing clear feedback to the user for actions, errors, and loading states (e.g., using `Alert`).
+- **Component-Based Structure:** Adherence to React Native's component-based architecture (e.g., `WordDetailModal.tsx`).
+- **Service Abstraction:** New functionalities are encapsulated in dedicated services (e.g., `pronunciationService.ts`, `fileService.ts`).
 
 ## 3. Key Project Decisions & Evolution
-- **Core Feature Reaffirmation:** The project is fundamentally an FSRS-based vocabulary learning tool. AI-powered word lookup and TTS are powerful supporting features, not the primary goal.
-- **AI as Primary Information Source:** Google Gemini API is the sole source for translations and example sentences after deprecating an external dictionary API.
-- **Multiple Translations Handling:** The system allows users to select multiple translations for a single source word, with each source word + selected translation pair becoming an independent vocabulary item for SRS.
+- **Core Feature Reaffirmation:** The project is an FSRS-based vocabulary learning tool. AI and TTS are supporting features.
+- **AI as Primary Information Source:** Google Gemini API is the sole source for translations and example sentences.
+- **Build Architecture:** The project has been migrated to use **React Native's New Architecture (Fabric)**. Disabling it is no longer a viable option due to dependency requirements (`react-native-reanimated`).
 
-## 4. External Services & APIs
-- **Gemini API Model Name:** The API is sensitive to the exact model name. If `404 Not Found` errors occur, do not guess the model name. The correct procedure is to check the Google Cloud Console API Metrics for a recent successful request (e.g., from a working mobile build) to identify the exact model identifier. The currently confirmed and working model is `gemini-2.0-flash`.
+## 4. Build & Deployment Troubleshooting
+- **Gradle Metaspace Error:**
+    - **Symptom:** Build fails with `Metaspace` error.
+    - **Fix:** Increase JVM memory in `android/gradle.properties`. Set `org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g`.
+- **Corrupted Android SDK (`package.xml` Error):**
+    - **Symptom:** Build fails with `javax.xml.bind.UnmarshalException: Premature end of file`, often referencing a task from a library like `react-native-gesture-handler`.
+    - **Fix:** A `package.xml` file in the Android SDK is corrupted (0 bytes). Identify the corrupted platform folder (e.g., `platforms/android-36`), delete it, and let Gradle re-download it on the next build.
+- **New Architecture Dependency Conflict:**
+    - **Symptom:** Build fails with errors like `[Reanimated] Reanimated requires new architecture` or `[Worklets] Worklets require new architecture`.
+    - **Fix:** The project's dependencies require the New Architecture. Do not attempt to disable it. Ensure `newArchEnabled=true` in `android/gradle.properties` and use a compatible version of `react-native-reanimated` (v4+). The original runtime crash was coincidentally fixed by this dependency upgrade.
+
+## 5. External Services & APIs
+- **Gemini API Model Name:** The API is sensitive to the exact model name. The currently confirmed and working model is `gemini-2.0-flash`.

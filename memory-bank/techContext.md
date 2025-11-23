@@ -14,6 +14,11 @@
 - **Word Lookup & Information Source**: **Google Gemini API (via `ai.ts`)** is the primary source for identifying language, providing multiple translations, and example sentences. The specific model in use is `gemini-2.0-flash`.
 - **Text-to-Speech (TTS)**: **`expo-speech` (via `src/services/pronunciationService.ts`)** for audio pronunciation.
 - **Notifications**: **`expo-notifications`** for scheduling local study reminders.
+- **File System & Sharing**: `expo-file-system`, `expo-sharing`, and `expo-document-picker` for implementing the import/export functionality.
 - **Unique IDs**: `expo-crypto` for UUID generation (used for `VocabularyItem` IDs).
 
-## 3. Development Setup
+## 3. Build & Environment
+- **Architecture:** The project is now configured to build with **React Native's New Architecture (Fabric)**. `newArchEnabled` must be `true` in `android/gradle.properties`.
+- **Dependencies:** The current set of dependencies (especially `react-native-reanimated@^4.x.x`) requires the New Architecture. Downgrading is not a viable strategy.
+- **Gradle Configuration:** The JVM memory for Gradle has been increased to `org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g` in `android/gradle.properties` to handle the resource requirements of building with the New Architecture.
+- **Android SDK Issues:** Be aware of potential build failures due to corrupted `package.xml` files in the Android SDK directory. The solution is to delete the corrupted platform folder (e.g., `platforms/android-36`) and let Gradle redownload it.
